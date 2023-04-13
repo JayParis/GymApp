@@ -3,6 +3,8 @@ var BarScript = pc.createScript('barScript');
 var distX = 1;
 var distY = 1;
 
+var unitSpace = 0;
+
 BarScript.prototype.initialize = function(){
     console.log("this script is init");
 
@@ -54,9 +56,24 @@ BarScript.prototype.resizeBar = function(){
 
     targetBarProgress += 0.1;
 
+    //var worldPos = this.entity.getPosition();
+    var worldPos = camera.getPosition().add(new pc.Vec3(0,1,0));
+    var screenPos = new pc.Vec3();
+    camera.camera.worldToScreen(worldPos, screenPos);
+    console.log(screenPos);
+
+    var pixelRatio = device.maxPixelRatio;
+    screenPos.x *= pixelRatio;
+    screenPos.y *= pixelRatio;
+
+    uiBox.setPosition(
+        ((screenPos.x / device.width) * 2) - 1, 
+        ((1 - (screenPos.y / device.height)) * 2) - 1, 
+        0);  
+
     //uiBox.setPosition(camera.camera.worldToScreen(width,height,3));
     
-    uiBox.setPosition(1,1,0);
+    //uiBox.setPosition(1,1,0);
     text.element.text = window.devicePixelRatio;
 
     //uiBox.element.setPosition(0,0,0);
