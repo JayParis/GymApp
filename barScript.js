@@ -5,6 +5,21 @@ var distY = 1;
 
 BarScript.prototype.initialize = function(){
     console.log("this script is init");
+
+    var touch = this.app.touch;
+    if (touch) {
+        touch.on(pc.EVENT_TOUCHSTART, this.onTouchStart, this);
+        touch.on(pc.EVENT_TOUCHMOVE, this.onTouchMove, this);
+        touch.on(pc.EVENT_TOUCHEND, this.onTouchEnd, this);
+        touch.on(pc.EVENT_TOUCHCANCEL, this.onTouchCancel, this);
+    }
+
+    this.on('destroy', function() {
+        touch.off(pc.EVENT_TOUCHSTART, this.onTouchStart, this);
+        touch.off(pc.EVENT_TOUCHMOVE, this.onTouchMove, this);
+        touch.off(pc.EVENT_TOUCHEND, this.onTouchEnd, this);
+        touch.off(pc.EVENT_TOUCHCANCEL, this.onTouchCancel, this);       
+    }, this);
 };
 
 BarScript.prototype.update = function(dt){
@@ -17,6 +32,10 @@ BarScript.prototype.update = function(dt){
     var progress = (distY * 0.5) + (distY * -barProgress); // 0 to 1
     this.entity.setPosition(0,(distY * 5) + progress,0);
 };
+
+UpdateBind.prototype.onTouchStart = function(event){
+    this.resizeBar();
+}
 
 BarScript.prototype.resizeBar = function(){
     let width = document.getElementById('application').offsetWidth;
