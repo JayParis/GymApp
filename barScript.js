@@ -33,7 +33,7 @@ BarScript.prototype.update = function(dt){
     this.entity.setPosition(0,(distY * 5) + progress,0);
 };
 
-UpdateBind.prototype.onTouchStart = function(event){
+BarScript.prototype.onTouchStart = function(event){
     this.resizeBar();
 }
 
