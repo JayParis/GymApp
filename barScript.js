@@ -57,24 +57,41 @@ BarScript.prototype.resizeBar = function(){
     targetBarProgress += 0.1;
 
     //var worldPos = this.entity.getPosition();
-    var worldPos = camera.getPosition().add(new pc.Vec3(0,1,0));
-    var screenPos = new pc.Vec3();
-    camera.camera.worldToScreen(worldPos, screenPos);
-    console.log(screenPos);
+    var worldPos_C = camera.getPosition().add(new pc.Vec3(0,0,0));
+    var screenPos_C = new pc.Vec3();
+    camera.camera.worldToScreen(worldPos_C, screenPos_C);
 
     var pixelRatio = device.maxPixelRatio;
-    screenPos.x *= pixelRatio;
-    screenPos.y *= pixelRatio;
+    screenPos_C.x *= pixelRatio;
+    screenPos_C.y *= pixelRatio;
 
-    uiBox.setPosition(
-        ((screenPos.x / device.width) * 2) - 1, 
-        ((1 - (screenPos.y / device.height)) * 2) - 1, 
-        0);  
+    var centerScreenPos = new pc.Vec3(
+        ((screenPos_C.x / device.width) * 2) - 1, 
+        ((1 - (screenPos_C.y / device.height)) * 2) - 1, 
+        0);
+
+    var worldPos_U = camera.getPosition().add(new pc.Vec3(0,1,0));
+    var screenPos_U = new pc.Vec3();
+    camera.camera.worldToScreen(worldPos_U, screenPos_U);
+
+    screenPos_U.x *= pixelRatio;
+    screenPos_U.y *= pixelRatio;
+
+    var upperScreenPos = new pc.Vec3(
+        ((screenPos_U.x / device.width) * 2) - 1, 
+        ((1 - (screenPos_U.y / device.height)) * 2) - 1, 
+        0);
+
+    unitSpace = upperScreenPos.y - centerScreenPos.y;
+    console.log(unitSpace);
+
+    uiBox.setPosition(upperScreenPos);
+    
 
     //uiBox.setPosition(camera.camera.worldToScreen(width,height,3));
     
     //uiBox.setPosition(1,1,0);
-    text.element.text = window.devicePixelRatio;
+    text.element.text = unitSpace;
 
     //uiBox.element.setPosition(0,0,0);
 
