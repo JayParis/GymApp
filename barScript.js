@@ -22,6 +22,26 @@ BarScript.prototype.initialize = function(){
         touch.off(pc.EVENT_TOUCHEND, this.onTouchEnd, this);
         touch.off(pc.EVENT_TOUCHCANCEL, this.onTouchCancel, this);       
     }, this);
+
+    app.assets.loadFromUrl("./9SliceTest_256.png", "textureatlas", function (err, atlasAsset) {
+        var spriteAsset = new pc.Asset('sprite asset', 'sprite');
+        var atlas = atlasAsset.resource;
+        atlas.setFrame('1', {
+            rect: new pc.Vec4(0, 0, 256, 256),
+            pivot: new pc.Vec2(0.5, 0.5),
+            border: new pc.Vec4(35, 35, 35, 35) 
+        });
+        let sprite = new pc.Sprite(device, {
+            renderMode: pc.SPRITE_RENDERMODE_TILED, //SPRITE_RENDERMODE_TILED
+            atlas: atlas,
+            frameKeys: ['1']
+        });
+        spriteAsset.resource = sprite;
+        spriteAsset.loaded = true;
+
+        uiBox.element.sprite = sprite;
+        console.log("Sliced sprite loaded");
+    });
 };
 
 BarScript.prototype.update = function(dt){
@@ -83,10 +103,13 @@ BarScript.prototype.resizeBar = function(){
         0);
 
     unitSpace = upperScreenPos.y - centerScreenPos.y;
-    console.log(unitSpace);
 
-    uiBox.setPosition(upperScreenPos);
-    
+    //let UBPos = new pc.Vec3(camera.camera.screenToWorld(width,height,3));
+    //uiBox.setPosition(UBPos);
+    //console.log(UBPos);
+    //uiBox.element.anchor = new pc.Vec4(1.0, 0.15, 0.75, 0.0);
+    //uiBox.element.margin = new pc.Vec4(0.0, 0.0, 0.0, 0.0);
+    uiBox.setLocalPosition(-15,15,0);
 
     //uiBox.setPosition(camera.camera.worldToScreen(width,height,3));
     
