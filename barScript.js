@@ -42,6 +42,8 @@ BarScript.prototype.initialize = function(){
         uiBox.element.sprite = sprite;
         console.log("Sliced sprite loaded");
     });
+
+    window.addEventListener('resize', () => this.resizeBar());
 };
 
 BarScript.prototype.update = function(dt){
@@ -50,12 +52,17 @@ BarScript.prototype.update = function(dt){
         this.resizeBar();
     }
 
+    if(this.app.mouse.wasPressed(pc.MOUSEBUTTON_LEFT)){
+        targetBarProgress += 0.1;
+    }
+
     barProgress = pc.math.lerp(barProgress, targetBarProgress, dt * 11.2);
     var progress = (distY * 0.5) + (distY * -barProgress); // 0 to 1
     this.entity.setPosition(0,(distY * 5) + progress,0);
 };
 
 BarScript.prototype.onTouchStart = function(event){
+    targetBarProgress += 0.1;
     this.resizeBar();
 }
 
@@ -74,7 +81,6 @@ BarScript.prototype.resizeBar = function(){
 
     //var progress = (distY * 0.5) + (distY * -0.99);
 
-    targetBarProgress += 0.1;
 
     //var worldPos = this.entity.getPosition();
     var worldPos_C = camera.getPosition().add(new pc.Vec3(0,0,0));
