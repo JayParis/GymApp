@@ -80,6 +80,8 @@ BarScript.prototype.setUpInterface = function(){
     //console.log("GN " + uiBox2.findComponents("element")[1].text);
     //device.fullscreen = true;
 
+    document.documentElement.requestFullscreen();
+
     hasSetupUI = true;
 }
 
