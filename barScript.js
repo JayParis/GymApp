@@ -70,6 +70,8 @@ BarScript.prototype.onTouchStart = function(event){
 }
 
 BarScript.prototype.setUpInterface = function(){
+    app.resizeCanvas();
+
     uiBox2 = uiBox.clone();
     uiGroup.addChild(uiBox2);
     uiBox2.setLocalPosition(-15,120,0);
