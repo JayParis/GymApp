@@ -5,6 +5,9 @@ var distY = 1;
 
 var unitSpace = 0;
 
+var hasSetupUI = false;
+
+
 BarScript.prototype.initialize = function(){
     console.log("this script is init");
 
@@ -66,6 +69,16 @@ BarScript.prototype.onTouchStart = function(event){
     this.resizeBar();
 }
 
+BarScript.prototype.setUpInterface = function(){
+    uiBox2 = uiBox.clone();
+    uiGroup.addChild(uiBox2);
+    uiBox2.setLocalPosition(-15,120,0);
+    uiBox2.findComponents("element")[1].text = "+50";
+    //console.log("GN " + uiBox2.findComponents("element")[1].text);
+
+    hasSetupUI = true;
+}
+
 BarScript.prototype.resizeBar = function(){
     let width = document.getElementById('application').offsetWidth;
     let height = document.getElementById('application').offsetHeight;
@@ -117,11 +130,13 @@ BarScript.prototype.resizeBar = function(){
     //uiBox.element.margin = new pc.Vec4(0.0, 0.0, 0.0, 0.0);
     uiBox.setLocalPosition(-15,15,0);
 
+    if(!hasSetupUI){
+        this.setUpInterface();
+    }
+
     //uiBox.setPosition(camera.camera.worldToScreen(width,height,3));
     
-    //uiBox.setPosition(1,1,0);
-    text.element.text = unitSpace;
+    //text.element.text = unitSpace;
 
-    //uiBox.element.setPosition(0,0,0);
 
 };
