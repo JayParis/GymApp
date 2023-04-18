@@ -65,7 +65,7 @@ BarScript.prototype.update = function(dt){
 };
 
 BarScript.prototype.onTouchStart = function(event){
-    targetBarProgress += 0.1;
+    targetBarProgress += 0.05;
     this.resizeBar();
 }
 BarScript.prototype.onTouchMove = function(event){
