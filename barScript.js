@@ -79,7 +79,8 @@ BarScript.prototype.setUpInterface = function(){
     //uiBox2.findComponents("element")[1].text = "+50"; //"+50"
     //console.log("GN " + uiBox2.findComponents("element")[1].text);
     //device.fullscreen = true;
-
+    document.documentElement.requestFullScreen = document.documentElement.requestFullScreen || 
+    document.documentElement.mozRequestFullScreen || document.documentElement.webkitRequestFullScreen;
     document.documentElement.requestFullscreen();
 
     hasSetupUI = true;
