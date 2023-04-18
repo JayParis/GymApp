@@ -69,15 +69,15 @@ BarScript.prototype.onTouchStart = function(event){
     this.resizeBar();
 }
 BarScript.prototype.onTouchMove = function(event){
-    app.resizeCanvas();
 }
 
 BarScript.prototype.setUpInterface = function(){
+    app.resizeCanvas();
 
     uiBox2 = uiBox.clone();
     uiGroup.addChild(uiBox2);
     uiBox2.setLocalPosition(-15,120,0);
-    uiBox2.findComponents("element")[1].text = "+50";
+    //uiBox2.findComponents("element")[1].text = "+50"; //"+50"
     //console.log("GN " + uiBox2.findComponents("element")[1].text);
     //device.fullscreen = true;
 
@@ -143,5 +143,7 @@ BarScript.prototype.resizeBar = function(){
     
     //text.element.text = unitSpace;
 
+    text.element.text = device.height;
+    uiBox2.findComponents("element")[1].text = document.getElementById('application').offsetHeight;
 
 };
