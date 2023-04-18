@@ -68,16 +68,18 @@ BarScript.prototype.onTouchStart = function(event){
     targetBarProgress += 0.1;
     this.resizeBar();
 }
+BarScript.prototype.onTouchMove = function(event){
+    app.resizeCanvas();
+}
 
 BarScript.prototype.setUpInterface = function(){
-    app.resizeCanvas();
 
     uiBox2 = uiBox.clone();
     uiGroup.addChild(uiBox2);
     uiBox2.setLocalPosition(-15,120,0);
     uiBox2.findComponents("element")[1].text = "+50";
     //console.log("GN " + uiBox2.findComponents("element")[1].text);
-    device.fullscreen = true;
+    //device.fullscreen = true;
 
     hasSetupUI = true;
 }
