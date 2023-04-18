@@ -72,7 +72,6 @@ BarScript.prototype.onTouchMove = function(event){
 }
 
 BarScript.prototype.setUpInterface = function(){
-    app.resizeCanvas();
 
     uiBox2 = uiBox.clone();
     uiGroup.addChild(uiBox2);
@@ -85,6 +84,8 @@ BarScript.prototype.setUpInterface = function(){
 }
 
 BarScript.prototype.resizeBar = function(){
+    app.resizeCanvas();
+
     let width = document.getElementById('application').offsetWidth;
     let height = document.getElementById('application').offsetHeight;
     var topLeft = new pc.Vec3(camera.camera.screenToWorld(width,height,3));
