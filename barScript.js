@@ -75,6 +75,7 @@ BarScript.prototype.setUpInterface = function(){
     uiBox2.setLocalPosition(-15,120,0);
     uiBox2.findComponents("element")[1].text = "+50";
     //console.log("GN " + uiBox2.findComponents("element")[1].text);
+    device.fullscreen = true;
 
     hasSetupUI = true;
 }
