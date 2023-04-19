@@ -57,6 +57,7 @@ BarScript.prototype.update = function(dt){
 
     if(this.app.mouse.wasPressed(pc.MOUSEBUTTON_LEFT)){
         targetBarProgress += 0.1;
+        this.resizeBar();
     }
 
     barProgress = pc.math.lerp(barProgress, targetBarProgress, dt * 11.2);
