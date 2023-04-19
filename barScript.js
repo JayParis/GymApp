@@ -152,6 +152,6 @@ BarScript.prototype.resizeBar = function(){
     text.element.text = device.height;
     uiBox2.findComponents("element")[1].text = document.getElementById('application').offsetHeight;
 
-    mat.color.set(0.76,0,0.5);
+    mat.color.set(0.76,1,0.5);
 
 };
