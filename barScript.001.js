@@ -84,7 +84,7 @@ BarScript.prototype.setUpInterface = function(){
     //document.documentElement.mozRequestFullScreen || document.documentElement.webkitRequestFullScreen;
     //document.documentElement.requestFullscreen();
 
-    //device.fullscreen = true;
+    device.fullscreen = true;
 
     hasSetupUI = true;
 }
