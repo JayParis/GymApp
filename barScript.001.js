@@ -66,7 +66,7 @@ BarScript.prototype.update = function(dt){
 };
 
 BarScript.prototype.onTouchStart = function(event){
-    targetBarProgress += 0.05;
+    targetBarProgress += 0.025;
     this.resizeBar();
 }
 BarScript.prototype.onTouchMove = function(event){
@@ -80,11 +80,11 @@ BarScript.prototype.setUpInterface = function(){
     //uiBox2.findComponents("element")[1].text = "+50"; //"+50"
     //console.log("GN " + uiBox2.findComponents("element")[1].text);
 
-    //document.documentElement.requestFullScreen = document.documentElement.requestFullScreen || 
-    //document.documentElement.mozRequestFullScreen || document.documentElement.webkitRequestFullScreen;
+    document.documentElement.requestFullScreen = document.documentElement.requestFullScreen || 
+    document.documentElement.mozRequestFullScreen || document.documentElement.webkitRequestFullScreen;
     //document.documentElement.requestFullscreen();
 
-    device.fullscreen = true;
+    //device.fullscreen = true;
 
     hasSetupUI = true;
 }
