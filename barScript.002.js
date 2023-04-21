@@ -80,9 +80,9 @@ BarScript.prototype.setUpInterface = function(){
     //uiBox2.findComponents("element")[1].text = "+50"; //"+50"
     //console.log("GN " + uiBox2.findComponents("element")[1].text);
 
-    document.documentElement.requestFullScreen = document.documentElement.requestFullScreen || 
-    document.documentElement.mozRequestFullScreen || document.documentElement.webkitRequestFullScreen;
-    document.documentElement.requestFullscreen();
+    document.body.requestFullScreen = document.body.requestFullScreen || 
+    document.body.mozRequestFullScreen || document.body.webkitRequestFullScreen;
+    document.body.requestFullscreen();
 
     //device.fullscreen = true;
 
