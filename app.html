@@ -52,7 +52,7 @@
         plane.model.material = mat;
 
         // add script
-        app.assets.loadFromUrl("./barScript.006.js", "script", function (err, asset) {
+        app.assets.loadFromUrl("./barScript.007.js", "script", function (err, asset) {
             //var texture = asset.resource;
             plane.addComponent("script");
             plane.script.create("barScript");
@@ -85,8 +85,13 @@
             height: 100,
             //margin: new pc.Vec4(0.0, 0.0, 0.0, 0.0),
             pivot: new pc.Vec2(1.0, 0.0), 
+            useInput: true,
+        });
+        uiBox.addComponent('button', {
+            imageEntity: uiBox, 
         });
         uiGroup.addChild(uiBox);
+        
 
         var uiBox2 = new pc.Entity('ui_box_2');
 

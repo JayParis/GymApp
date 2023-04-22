@@ -47,6 +47,13 @@ BarScript.prototype.initialize = function(){
     });
 
     window.addEventListener('resize', () => this.resizeBar());
+
+    uiBox.button.on('click', function(evt){
+        console.log(evt);
+        console.log("Button Clicked");
+        const goFullEvent = new Event("gofull");
+        parent.document.getElementById('fullscreen').dispatchEvent(goFullEvent);
+    });
 };
 
 BarScript.prototype.update = function(dt){
@@ -89,8 +96,7 @@ BarScript.prototype.setUpInterface = function(){
     //console.log("FSCR_" + window.document.getElementById('fullscreen'));
     //window.goFullscreen();
     console.log("Parent " + parent.document.getElementById('fullscreen'));
-    const goFullEvent = new Event("gofull");
-    parent.document.getElementById('fullscreen').dispatchEvent(goFullEvent);
+    
 
     hasSetupUI = true;
 }
