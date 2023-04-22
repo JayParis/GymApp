@@ -149,8 +149,8 @@ BarScript.prototype.resizeBar = function(){
     
     //text.element.text = unitSpace;
 
-    text.element.text = device.height;
-    uiBox2.findComponents("element")[1].text = document.getElementById('application').offsetHeight;
+    text.element.text = device.height + "v";
+    uiBox2.findComponents("element")[1].text = document.getElementById('application').offsetHeight + "v2";
 
     mat.color.set(0.16,0,0.95);
     mat.update();
