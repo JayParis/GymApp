@@ -79,7 +79,7 @@
 
     <!-- FULLSCREEN -->
     <script type='text/javascript'>
-        var iframe = document.getElementById('frame');
+        const iframe = document.getElementById('frame');
 
         // aggregate fullscreen to one method
         iframe.requestFullScreen = iframe.requestFullScreen || iframe.mozRequestFullScreen || iframe.webkitRequestFullScreen;
@@ -88,13 +88,15 @@
         // detect fullscreen is supported
         if (iframe.requestFullScreen) {
             button.classList.add('available');
-            button.addEventListener('click', function() {
+            button.addEventListener('gofull', function() {
+                console.log("Going fullscreen");
                 iframe.requestFullScreen();
 
                 if (kik.enabled) {
                     kik.browser.statusBar(false);
                 }
             }, false);
+            console.log("Fullscreen is supported");
         }
 
         // focus the iframe window so that keyboard works.

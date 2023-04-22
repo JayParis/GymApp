@@ -80,10 +80,17 @@ BarScript.prototype.setUpInterface = function(){
     //uiBox2.findComponents("element")[1].text = "+50"; //"+50"
     //console.log("GN " + uiBox2.findComponents("element")[1].text);
 
-    document.documentElement.requestFullScreen = document.documentElement.requestFullScreen || document.documentElement.mozRequestFullScreen || document.documentElement.webkitRequestFullScreen;
-    document.documentElement.requestFullScreen();
+    //document.documentElement.requestFullScreen = document.documentElement.requestFullScreen || document.documentElement.mozRequestFullScreen || document.documentElement.webkitRequestFullScreen;
+    //document.documentElement.requestFullScreen();
     //iframe.requestFullScreen();
     //device.fullscreen = true;
+
+    //const event = new Event("click");
+    //console.log("FSCR_" + window.document.getElementById('fullscreen'));
+    //window.goFullscreen();
+    console.log("Parent " + parent.document.getElementById('fullscreen'));
+    const goFullEvent = new Event("gofull");
+    parent.document.getElementById('fullscreen').dispatchEvent(goFullEvent);
 
     hasSetupUI = true;
 }
@@ -152,7 +159,7 @@ BarScript.prototype.resizeBar = function(){
     text.element.text = device.height + "v";
     uiBox2.findComponents("element")[1].text = document.getElementById('application').offsetHeight + "v2";
 
-    mat.color.set(0.16,0,0.95);
+    mat.color.set(0.16,1,0.95);
     mat.update();
     console.log("Colour set: " + mat.color);
     
