@@ -1,144 +1,272 @@
-<!DOCTYPE html>
+
+<!doctype html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>PlayCanvas Hello Cube</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no' />
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="viewport" content="viewport-fit=cover, user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Full Screen - PLAYCANVAS</title>
+
+    <meta name="description" content="A WebGL application made with PlayCanvas (https://playcanvas.com)" />
+    <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover' />
+    <!--
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@playcanvas" />
+    <meta name="twitter:title" content="Full Screen" />
+    <meta name="twitter:description" content="A WebGL application made with PlayCanvas (https://playcanvas.com)" />
+    <meta name="twitter:image" content="//playcanvas.com/static-assets/platform/images/logo/playcanvas-logo-medium.png" />
+    <meta name="twitter:domain" content="https://playcanv.as/p/ai6r7ERM/" />
+
+    <meta property="og:url" content="https://playcanv.as/p/ai6r7ERM/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Full Screen" />
+    <meta property="og:description" content="A WebGL application made with PlayCanvas (https://playcanvas.com)">
+    <meta property="og:image" content="//playcanvas.com/static-assets/platform/images/logo/playcanvas-logo-medium.png" />
+    <meta property="og:site_name" content="PlayCanvas" />
+    -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Full Screen">
     
+    <meta name="mobile-web-app-capable" content="yes">
+    <!--
+    <meta name="pc-url-home" content="https://playcanvas.com" />
+    <meta name="pc-onetrust-key" content="f91a844d-1f3a-40ee-8434-e5049aee38da" />
+    -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
+    <!--
+    <link rel="icon" href="//playcanvas.com/static-assets/platform/images/logo/playcanvas-logo-small.png">
+
+    <link rel="manifest" href="https://playcanv.as/p/ai6r7ERM/manifest.json">
+
+    <link rel="kik-icon" href="//playcanvas.com/static-assets/platform/images/logo/playcanvas-logo-medium.png">
+    <link rel="canonical" href="https://playcanv.as/p/ai6r7ERM/">
+
+    <link rel="apple-touch-icon" href="//playcanvas.com/static-assets/platform/images/logo/playcanvas-logo-small.png" />
+    -->
+    <link rel="stylesheet" href="/css/styles.css">
 
     <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-        }
     </style>
-    <script src='./engine.js'></script>
 </head>
 <body>
-    <canvas id='application'></canvas>
-    <script>
-        // create a PlayCanvas application
-        const canvas = document.getElementById('application');
-        canvas.style['-webkit-user-select'] = 'none';
-        const app = new pc.Application(canvas, {
-            elementInput: new pc.ElementInput(canvas),
-            mouse: new pc.Mouse(canvas),
-            touch: !!('ontouchstart' in window) ? new pc.TouchDevice(canvas) : null,
-            keyboard: new pc.Keyboard(window),
+    <div id='container'>
+        <iframe id='frame'
+                src='./app.html'
+                webkitallowfullscreen='true'
+                mozallowfullscreen='true'
+                allow='autoplay'
+                allowfullscreen='true'
+                allowvr
+                scrolling='no'
+                frameBorder='0'>
+        </iframe>
+    </div>
+
+    <div id='footer'>
+        <a class='title' href='https://playcanvas.com/' target='_blank'>
+            <div class='img'></div>
+        </a>
+        <!--
+        <div class='views'><img class='icon' src='https://playcanvas.com/static-assets/images/eye.png' /><span id="viewcount">292</span></div>
+        -->
+        <div id='fullscreen'></div>
+
+        <div id='social'>
+        </div>
+    </div>
+
+    <!-- FULLSCREEN -->
+    <script type='text/javascript'>
+        var iframe = document.getElementById('frame');
+
+        // aggregate fullscreen to one method
+        iframe.requestFullScreen = iframe.requestFullScreen || iframe.mozRequestFullScreen || iframe.webkitRequestFullScreen;
+        var button = document.getElementById('fullscreen');
+
+        // detect fullscreen is supported
+        if (iframe.requestFullScreen) {
+            button.classList.add('available');
+            button.addEventListener('click', function() {
+                iframe.requestFullScreen();
+
+                if (kik.enabled) {
+                    kik.browser.statusBar(false);
+                }
+            }, false);
+        }
+
+        // focus the iframe window so that keyboard works.
+        // (Chrome Fix: do this after the iframe has loaded
+        // otherwise gamepads don't work)
+        iframe.addEventListener('load', function () {
+            iframe.contentWindow.focus();
         });
 
-        var device = pc.Application.getApplication().graphicsDevice;
-        device.maxPixelRatio = window.devicePixelRatio;
-
-        // fill the available space at full resolution
-        app.setCanvasFillMode(pc.FILLMODE_FILL_WINDOW);
-        app.setCanvasResolution(pc.RESOLUTION_AUTO);
-
-        // ensure canvas is resized when window changes size
-        window.addEventListener('resize', () => app.resizeCanvas());
-
-        var targetBarProgress = 0;
-        var barProgress = 0;
-
-        // create box entity
-        const plane = new pc.Entity('plane');
-        plane.addComponent('model', {
-            type: 'plane'
-        });
-        app.root.addChild(plane);
-        plane.setEulerAngles(90,0,0);
-
-        var mat = new pc.BasicMaterial();
-        mat.color.set(0.76,1,0.915);
-        plane.model.material = mat;
-
-        // add script
-        app.assets.loadFromUrl("./barScript.004.js", "script", function (err, asset) {
-            //var texture = asset.resource;
-            plane.addComponent("script");
-            plane.script.create("barScript");
-            targetBarProgress = 0.5;
-        });
-
-        // create UI
-        const ui = new pc.Entity('cam_ui');
-        ui.addComponent('screen', {
-            referenceResolution: new pc.Vec2(1280, 720),
-            screenSpace: true,
-            scaleBlend: 0.5,
-            scaleMode: pc.SCALEMODE_BLEND,
-        });
-        app.root.addChild(ui);
-        const uiGroup = new pc.Entity('cam_ui_group');
-        uiGroup.addComponent('element', {
-            type: pc.ELEMENTTYPE_GROUP,
-            anchor: new pc.Vec4(0.0, 0.0, 1.0, 1.0),
-            margin: new pc.Vec4(0.0, 0.0, 0.0, 0.0),
-            pivot: new pc.Vec2(0.0, 0.0), 
-        });
-        ui.addChild(uiGroup);
-
-        const uiBox = new pc.Entity('ui_box');
-        uiBox.addComponent('element', {
-            type: pc.ELEMENTTYPE_IMAGE,
-            anchor: new pc.Vec4(1.0, 0.0, 1.0, 0.0),
-            width: 300,
-            height: 100,
-            //margin: new pc.Vec4(0.0, 0.0, 0.0, 0.0),
-            pivot: new pc.Vec2(1.0, 0.0), 
-        });
-        uiGroup.addChild(uiBox);
-
-        var uiBox2 = new pc.Entity('ui_box_2');
-
-        const text = new pc.Entity('text');
-        var fontAsset = new pc.Asset('VarelaRound-Regular', "font", { url: "./VarelaRound-Regular.json" });
-        text.tags.add("bText");
-        uiBox.addChild(text); //uiGroup
-
-        fontAsset.on('load', function () {
-            // Apply the font to the text element
-            console.log("Font loaded");
-
-            text.addComponent('element', {
-                    pivot: new pc.Vec2(0.5, 0.5),
-                    anchor: new pc.Vec4(0.5, 0.5, 0.5, 0.5),
-                    type: pc.ELEMENTTYPE_TEXT,
-                    font: fontAsset.resource,
-                    fontSize: 52,
-                    text: "+100",
-                    color: pc.Color.BLACK
-            });
-        });
-        app.assets.load(fontAsset);
-
-        // create camera entity
-        const camera = new pc.Entity('camera');
-        camera.addComponent('camera', {
-            fov: 12,
-            projection: 'Orthographic',
-            orthoHeight: 2.5,
-            clearColor: new pc.Color(0.01, 0.01, 0.01)
-        });
-        app.root.addChild(camera);
-        camera.setPosition(0, 0, 3);
-
-        // create directional light entity
-        const light = new pc.Entity('light');
-        light.addComponent('light');
-        app.root.addChild(light);
-        light.setEulerAngles(45, 0, 0);
-
-        // rotate the box according to the delta time since the last frame
-        //app.on('update', dt => plane.rotate(10 * dt, 20 * dt, 30 * dt));
-
-        app.start();
     </script>
+
+    <script>
+            var kik = {
+                enabled: false
+            };
+        </script>
+
+    <!-- FULL WINDOW -->
+    <script>
+        (function() {
+
+            // Needed as we will have edge cases for particular versions of iOS
+            // returns null if not iOS
+            var getIosVersion = function () {
+                if (/iP(hone|od|ad)/.test(navigator.platform)) {
+                    var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
+                    var version = [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)];
+                    return version;
+                }
+
+                return null;
+            }
+
+            var iosVersion = getIosVersion();
+            var iframe = document.getElementById('frame');
+            var footer = document.getElementById('footer');
+
+            var container = document.getElementById('container');
+            var lastWindowHeight = window.innerHeight;
+            var lastWindowWidth = window.innerWidth;
+            var windowSizeChangeIntervalHandler = null;
+
+            var resizeContainer = function () {
+                var width = window.innerWidth;
+
+                // Take into account of the footer
+                var height = window.innerHeight - footer.offsetHeight;
+
+                container.style.height = height + 'px';
+                container.style.width = width + 'px';
+
+                iframe.style.height = height + 'px';
+                iframe.style.width = width + 'px';
+
+                lastWindowHeight = window.innerHeight;
+                lastWindowWidth = window.innerWidth;
+
+                // Work around when in landscape to work on iOS 12 otherwise
+                // the content is under the URL bar at the top
+                if (iosVersion && iosVersion[0] <= 12) {
+                    window.scrollTo(0, 0);
+                }
+            };
+
+            var reflow = function () {
+                resizeContainer();
+                // Poll for size changes as the window inner height can change after the resize event for iOS
+                // Have one tab only, and rotate to portrait -> landscape -> portrait
+                if (windowSizeChangeIntervalHandler === null) {
+                    windowSizeChangeIntervalHandler = setInterval(function () {
+                        if (lastWindowHeight !== window.innerHeight || lastWindowWidth !== window.innerWidth) {
+                            resizeContainer();
+                        }
+                    }, 100);
+
+                    // Don't want to do this all the time so stop polling after some short time
+                    setTimeout(function() {
+                        if (!!windowSizeChangeIntervalHandler) {
+                            clearInterval(windowSizeChangeIntervalHandler);
+                            windowSizeChangeIntervalHandler = null;
+                        }
+                    }, 2000);
+                }
+            };
+
+            window.addEventListener('resize', reflow, false);
+            window.addEventListener('orientationchange', reflow, false);
+
+            iframe.addEventListener('load', function () {
+                reflow();
+            });
+        })();
+    </script>
+
+    <!-- SHARE -->
+    <script type='text/javascript'>
+
+        function addNetwork(network, _class) {
+            var div = document.createElement("div");
+            div.classList.add("share");
+            div.classList.add(_class);
+            div.setAttribute("data-network", network);
+
+            var el = document.getElementById("social");
+            el.appendChild(div);
+        }
+
+
+        if (kik.enabled) {
+            function kik_share() {
+                kik.send({
+                    title: 'Full Screen',
+                    text: 'A WebGL application made with PlayCanvas (https://playcanvas.com)',
+                    pic: '//playcanvas.com/static-assets/platform/images/logo/playcanvas-logo-medium.png',
+                    big: true,
+                });
+            };
+
+            addNetwork("kik", "kik");
+
+            var buttons = document.querySelectorAll("#social > .share.kik")
+            buttons[0].addEventListener('click', function () {
+                kik_share(this.getAttribute('data-network'));
+            });
+        } else {
+            addNetwork("facebook", "fb");
+            addNetwork("twitter", "tw");
+
+            var share = function(network) {
+                var title = document.title;
+                var href = window.location;
+                var text = document.head.querySelector('meta[name="description"]').getAttribute('content');
+                var tweet = text;
+                if (tweet.length > 110) {
+                    tweet = tweet.slice(0, 107) + '...';
+                }
+                var url = '';
+
+                switch(network) {
+                    case 'facebook':
+                        url = "https://facebook.com/sharer.php?u=" + encodeURIComponent(href) + "&t=" + encodeURIComponent(text);
+                        break;
+                    case 'twitter':
+                        url = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweet) + "&url=" + encodeURIComponent(href)
+                        break;
+                }
+
+                var left = (screen.width / 2) - (640 / 2);
+                var top = (screen.height / 2) - (380 / 2);
+
+                var popup = window.open(url, 'name', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + 640 + ', height=' + 380 +', top=' + top + ', left=' + left);
+                if (window.focus && popup) {
+                    popup.focus();
+                }
+            }
+
+            var shareButtons = document.querySelectorAll('#social > .share');
+            for(var i =0; i < shareButtons.length; i++) {
+                shareButtons[i].addEventListener('click', function() {
+                    share(this.getAttribute('data-network'));
+                }, false);
+            }
+        }
+    </script>
+
+
+    <!-- FORMAT VIEWS -->
+    <script>
+    var views = document.querySelector("#viewcount");
+    if (views) {
+        var num = parseInt(views.textContent, 10);
+        views.textContent = num.toLocaleString();
+    }
+    </script>
+
 </body>
 </html>
