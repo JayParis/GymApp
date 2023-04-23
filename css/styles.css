@@ -129,33 +129,33 @@ body {
     background-repeat: no-repeat;
     background-position: 6px 6px
 }
-
+/*
 #footer>#social>.share:hover {
     background-color: #1d292c
 }
 
 #footer>#social>.share.fb {
-    /*background-image: url("https://playcanvas.com/static-assets/images/fb.png")*/
+    background-image: url("https://playcanvas.com/static-assets/images/fb.png")
 }
 
 #footer>#social>.share.fb:hover {
-    /*background-image: url("https://playcanvas.com/static-assets/images/fb_hover.png")*/
+    background-image: url("https://playcanvas.com/static-assets/images/fb_hover.png")
 }
 
 #footer>#social>.share.tw {
-    /*background-image: url("https://playcanvas.com/static-assets/images/tw.png")*/
+    background-image: url("https://playcanvas.com/static-assets/images/tw.png")
 }
 
 #footer>#social>.share.tw:hover {
-    /*background-image: url("https://playcanvas.com/static-assets/images/tw_hover.png")*/
+    background-image: url("https://playcanvas.com/static-assets/images/tw_hover.png")
 }
 
 #footer>#social>.share.kik {
-    /*background-image: url("https://playcanvas.com/static-assets/images/kik.png")*/
+    background-image: url("https://playcanvas.com/static-assets/images/kik.png")
 }
 
 #footer>#social>.share.kik:hover {
-    /*background-image: url("https://playcanvas.com/static-assets/images/kik_hover.png")*/
+    background-image: url("https://playcanvas.com/static-assets/images/kik_hover.png")
 }
 
 @media all and (max-width: 640px) {
@@ -172,7 +172,7 @@ body {
         margin: 0;
         width: 32px;
         height: 32px;
-        /*background-image: url("https://playcanvas.com/static-assets/images/logo/PLAY_FLAT_ORANGE3_SMALL.png")*/
+        background-image: url("https://playcanvas.com/static-assets/images/logo/PLAY_FLAT_ORANGE3_SMALL.png")
     }
 
     #footer>.views {
@@ -213,3 +213,4 @@ body {
         bottom: 0
     }
 }
+*/
