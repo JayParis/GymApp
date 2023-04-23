@@ -83,7 +83,7 @@ BarScript.prototype.setUpInterface = function(){
 
     uiBox2 = uiBox.clone();
     uiGroup.addChild(uiBox2);
-    uiBox2.setLocalPosition(-15,120,0);
+    uiBox2.setLocalPosition(-15,145,0);
     //uiBox2.findComponents("element")[1].text = "+50"; //"+50"
     //console.log("GN " + uiBox2.findComponents("element")[1].text);
 
@@ -152,7 +152,7 @@ BarScript.prototype.resizeBar = function(){
     //console.log(UBPos);
     //uiBox.element.anchor = new pc.Vec4(1.0, 0.15, 0.75, 0.0);
     //uiBox.element.margin = new pc.Vec4(0.0, 0.0, 0.0, 0.0);
-    uiBox.setLocalPosition(-15,15,0);
+    uiBox.setLocalPosition(-15,45,0);
 
     if(!hasSetupUI){
         this.setUpInterface();
@@ -165,7 +165,7 @@ BarScript.prototype.resizeBar = function(){
     text.element.text = device.height + "v";
     uiBox2.findComponents("element")[1].text = document.getElementById('application').offsetHeight + "v2";
 
-    mat.color.set(0.16,1,0.95);
+    mat.color.set(0.9882,0.83921,0.2196);
     mat.update();
     console.log("Colour set: " + mat.color);
     
