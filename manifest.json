@@ -1,7 +1,7 @@
 {
     "name": "KCal Counter",
     "short_name": "KCal Counter",
-    "start_url": "/?home=true",
+    "start_url": "index.html",
     "icons":[
         {
           "src": "icons/manifest-icon-192.maskable.png",
