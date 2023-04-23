@@ -129,52 +129,52 @@ body {
     background-repeat: no-repeat;
     background-position: 6px 6px
 }
-/*
+
 #footer>#social>.share:hover {
     background-color: #1d292c
 }
 
 #footer>#social>.share.fb {
-    background-image: url("https://playcanvas.com/static-assets/images/fb.png")
+    /*background-image: url("https://playcanvas.com/static-assets/images/fb.png")*/
 }
 
 #footer>#social>.share.fb:hover {
-    background-image: url("https://playcanvas.com/static-assets/images/fb_hover.png")
+    /*background-image: url("https://playcanvas.com/static-assets/images/fb_hover.png")*/
 }
 
 #footer>#social>.share.tw {
-    background-image: url("https://playcanvas.com/static-assets/images/tw.png")
+    /*background-image: url("https://playcanvas.com/static-assets/images/tw.png")*/
 }
 
 #footer>#social>.share.tw:hover {
-    background-image: url("https://playcanvas.com/static-assets/images/tw_hover.png")
+    /*background-image: url("https://playcanvas.com/static-assets/images/tw_hover.png")*/
 }
 
 #footer>#social>.share.kik {
-    background-image: url("https://playcanvas.com/static-assets/images/kik.png")
+    /*background-image: url("https://playcanvas.com/static-assets/images/kik.png")*/
 }
 
 #footer>#social>.share.kik:hover {
-    background-image: url("https://playcanvas.com/static-assets/images/kik_hover.png")
+    /*background-image: url("https://playcanvas.com/static-assets/images/kik_hover.png")*/
 }
 
 @media all and (max-width: 640px) {
     #container {
-        bottom:32px
+        /*bottom:32px*/
     }
 
     #footer {
-        height: 32px;
-        line-height: 32px
+        /*height: 32px;
+        line-height: 32px*/
     }
 
     #footer>.title>.img {
         margin: 0;
-        width: 32px;
+        /*width: 32px;
         height: 32px;
-        background-image: url("https://playcanvas.com/static-assets/images/logo/PLAY_FLAT_ORANGE3_SMALL.png")
+        background-image: url("https://playcanvas.com/static-assets/images/logo/PLAY_FLAT_ORANGE3_SMALL.png")*/
     }
-
+/*
     #footer>.views {
         padding-left: 8px;
         font-size: 12px
@@ -201,7 +201,7 @@ body {
         padding: 4px;
         background-position: 4px 4px;
         background-size: 24px 24px
-    }
+    }*/
 }
 
 @media (max-height: 768px), (max-height: 1024px) and (orientation: portrait) {
@@ -213,4 +213,3 @@ body {
         bottom: 0
     }
 }
-*/
