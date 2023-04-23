@@ -52,6 +52,12 @@
     </style>
 </head>
 <body>
+    <script>
+        if('serviceWorker' in navigator){
+            navigator.serviceWorker.register('/service-worker.js');
+        }
+    </script>
+
     <div id='container'>
         <iframe id='frame'
                 src='./app.html'
