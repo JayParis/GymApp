@@ -75,11 +75,12 @@ BarScript.prototype.update = function(dt){
         this.resizeBar();
     }
 
+    targetBarProgress = pc.math.clamp(currentKcal / targetKcal, 0.001, 1);
     barProgress = pc.math.lerp(barProgress, targetBarProgress, dt * 11.2);
     var progress = (distY * 0.5) + (distY * -barProgress); // 0 to 1
     this.entity.setPosition(0,(distY * 5) + progress,0);
 
-    if(hasSetupUI){
+    if(hasSetupUI && 1 == 2){
         this.time += dt;
             
         // Bounce value of t 0->1->0
@@ -116,6 +117,8 @@ BarScript.prototype.setUpInterface = function(){
     //const event = new Event("click");
     //console.log("FSCR_" + window.document.getElementById('fullscreen'));
     //window.goFullscreen();
+    // SHADER CODE
+    /*
     var vertexShader = app.assets.find("vertshader","shader").resource;
     var fragmentShader = "precision " + device.precision + " float;\n";
     fragmentShader = fragmentShader + app.assets.find("fragshader","shader").resource;
@@ -147,6 +150,7 @@ BarScript.prototype.setUpInterface = function(){
             meshInstances[j].material = this.material;
         }
     }
+    */
 
     console.log("Parent " + parent.document.getElementById('fullscreen'));
 
@@ -188,10 +192,12 @@ BarScript.prototype.setUpInterface = function(){
 
     uiBox.button.on('click', function(evt){
         targetBarProgress += 0.1;
+        currentKcal += 100;
         self.resizeBar();
     });
     uiBox2.button.on('click', function(evt){
         targetBarProgress += 0.05;
+        currentKcal += 50;
         self.resizeBar();
     });
 
@@ -277,12 +283,14 @@ BarScript.prototype.resizeBar = function(){
     text.element.text = "+100"; // device.height + "v"
     uiBox2.findComponents("element")[1].text = "+50"; // document.getElementById('application').offsetHeight + "v2"
 
-    topText.setLocalPosition(0,-45,0);
+    topText.setLocalPosition(0,-105,0); //-45
+    subText.setLocalPosition(0,-15,0);
     topText.element.text = targetKcal + " kcal";
+    subText.element.text = currentKcal + " kcal";
 
 
-    //mat.color.set(0.9882,0.83921,0.2196);
-    //mat.update();
-    //console.log("Colour set: " + mat.color);
+    mat.color.set(0.9882,0.83921,0.2196);
+    mat.update();
+    console.log("Colour set: " + mat.color);
     
 };

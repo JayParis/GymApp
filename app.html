@@ -48,7 +48,7 @@
         ];
 
         var targetKcal = 3200;
-        var currentKcal = 100;
+        var currentKcal = 0;
 
         var targetBarProgress = 0;
         var barProgress = 0;
@@ -115,8 +115,10 @@
         text.tags.add("bText");
         uiBox.addChild(text); //uiGroup
 
-        const topText = new pc.Entity('text');
+        const topText = new pc.Entity('toptext');
         uiGroup.addChild(topText);
+        const subText = new pc.Entity('subtext');
+        topText.addChild(subText);
 
 
         fontAsset.on('load', function () {
@@ -139,6 +141,16 @@
                     font: fontAsset.resource,
                     fontSize: 52,
                     text: "3100 kcal",
+                    color: [0.929,0.886,0.807],
+                    alignment: [0.5,0.5],
+            });
+            subText.addComponent('element', {
+                    pivot: new pc.Vec2(0.5, 0.5),
+                    anchor: new pc.Vec4(0.5, 0, 0.5, 0),
+                    type: pc.ELEMENTTYPE_TEXT,
+                    font: fontAsset.resource,
+                    fontSize: 26,
+                    text: "100 kcal",
                     color: [0.929,0.886,0.807],
                     alignment: [0.5,0.5],
             });
