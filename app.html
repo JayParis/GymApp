@@ -14,6 +14,9 @@
     <script src='./engine.js'></script>
 </head>
 <body>
+    <div id="splash">
+        
+    </div>
     <canvas id='application'></canvas>
     <script>
         // create a PlayCanvas application
@@ -36,12 +39,23 @@
         // ensure canvas is resized when window changes size
         window.addEventListener('resize', () => app.resizeCanvas());
 
+        var appAssets = [
+            new pc.Asset("fragshader", "shader", {url: "./shaders/shader.frag"}),
+            new pc.Asset("vertshader", "shader", {url: "./shaders/shader.vert"}),
+            new pc.Asset("noisetex", "texture", {url: "./TileableNoise512.jpg"}),
+            new pc.Asset("addtex", "texture", {url: "./AddIcon.png"}),
+            new pc.Asset("subtex", "texture", {url: "./SubIcon.png"}),
+        ];
+
+        var targetKcal = 3200;
+        var currentKcal = 100;
+
         var targetBarProgress = 0;
         var barProgress = 0;
 
         // create box entity
         const plane = new pc.Entity('plane');
-        plane.addComponent('model', {
+        plane.addComponent('render', { //model
             type: 'plane'
         });
         app.root.addChild(plane);
@@ -49,7 +63,7 @@
 
         var mat = new pc.BasicMaterial();
         mat.color.set(0.76,1,0.915);
-        plane.model.material = mat;
+        plane.render.material = mat;//model mat
 
         // add script
         app.assets.loadFromUrl("./barScript.007.js", "script", function (err, asset) {
@@ -101,6 +115,10 @@
         text.tags.add("bText");
         uiBox.addChild(text); //uiGroup
 
+        const topText = new pc.Entity('text');
+        uiGroup.addChild(topText);
+
+
         fontAsset.on('load', function () {
             // Apply the font to the text element
             console.log("Font loaded");
@@ -113,6 +131,16 @@
                     fontSize: 52,
                     text: "+100",
                     color: [0.929,0.886,0.807],
+            });
+            topText.addComponent('element', {
+                    pivot: new pc.Vec2(0.5, 0.5),
+                    anchor: new pc.Vec4(0.5, 1, 0.5, 1),
+                    type: pc.ELEMENTTYPE_TEXT,
+                    font: fontAsset.resource,
+                    fontSize: 52,
+                    text: "3100 kcal",
+                    color: [0.929,0.886,0.807],
+                    alignment: [0.5,0.5],
             });
         });
         app.assets.load(fontAsset);

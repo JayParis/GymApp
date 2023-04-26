@@ -46,14 +46,23 @@ BarScript.prototype.initialize = function(){
         console.log("Sliced sprite loaded");
     });
 
+    this.time = 0;
+    var count = 0;
+    appAssets.forEach(function (assetToLoad) {
+        assetToLoad.ready(function (asset) {
+            count++;
+            app.assets.add(asset);
+            if (count === appAssets.length) {
+                // done
+                console.log("ALL THE ASSETS HAVE LOADED");
+            }
+        });
+        app.assets.load(assetToLoad);
+    });
+
     window.addEventListener('resize', () => this.resizeBar());
 
-    uiBox.button.on('click', function(evt){
-        console.log(evt);
-        console.log("Button Clicked");
-        const goFullEvent = new Event("gofull");
-        parent.document.getElementById('fullscreen').dispatchEvent(goFullEvent);
-    });
+    
 };
 
 BarScript.prototype.update = function(dt){
@@ -63,23 +72,35 @@ BarScript.prototype.update = function(dt){
     }
 
     if(this.app.mouse.wasPressed(pc.MOUSEBUTTON_LEFT)){
-        targetBarProgress += 0.1;
         this.resizeBar();
     }
 
     barProgress = pc.math.lerp(barProgress, targetBarProgress, dt * 11.2);
     var progress = (distY * 0.5) + (distY * -barProgress); // 0 to 1
     this.entity.setPosition(0,(distY * 5) + progress,0);
+
+    if(hasSetupUI){
+        this.time += dt;
+            
+        // Bounce value of t 0->1->0
+        var t = (this.time % 2);
+        if (t > 1) {
+            t = 1 - (t - 1);
+        }
+
+        // Update the time value in the material
+        this.material.setParameter('uTime', t);
+    }
 };
 
 BarScript.prototype.onTouchStart = function(event){
-    targetBarProgress += 0.025;
     this.resizeBar();
 }
 BarScript.prototype.onTouchMove = function(event){
 }
 
 BarScript.prototype.setUpInterface = function(){
+    var self = this;
 
     uiBox2 = uiBox.clone();
     uiGroup.addChild(uiBox2);
@@ -95,9 +116,102 @@ BarScript.prototype.setUpInterface = function(){
     //const event = new Event("click");
     //console.log("FSCR_" + window.document.getElementById('fullscreen'));
     //window.goFullscreen();
-    console.log("Parent " + parent.document.getElementById('fullscreen'));
-    
+    var vertexShader = app.assets.find("vertshader","shader").resource;
+    var fragmentShader = "precision " + device.precision + " float;\n";
+    fragmentShader = fragmentShader + app.assets.find("fragshader","shader").resource;
+    var noiseTex = app.assets.find("noisetex","texture").resource;
 
+    var shaderDefinition = {
+        attributes: {
+            aPosition: pc.SEMANTIC_POSITION,
+            aUv0: pc.SEMANTIC_TEXCOORD0
+        },
+        vshader: vertexShader,
+        fshader: fragmentShader
+    };
+
+    this.shader = new pc.Shader(device, shaderDefinition);
+    this.material = new pc.Material();
+    this.material.shader = this.shader;
+
+    this.material.setParameter('uTime', 0);
+    this.material.setParameter('uDiffuseMap', noiseTex);
+    this.material.setParameter('uHeightMap', noiseTex);
+
+    var renders = this.entity.findComponents('render');
+    console.log("RENDERS: " + renders);
+
+    for (var i = 0; i < renders.length; ++i) {
+        var meshInstances = renders[i].meshInstances;
+        for (var j = 0; j < meshInstances.length; j++) {
+            meshInstances[j].material = this.material;
+        }
+    }
+
+    console.log("Parent " + parent.document.getElementById('fullscreen'));
+
+    const addButton = new pc.Entity('addButton');
+    addButton.addComponent('element', {
+        type: pc.ELEMENTTYPE_IMAGE,
+        anchor: new pc.Vec4(1.0, 0.5, 1.0, 0.5),
+        width: 55,
+        height: 55,
+        //margin: new pc.Vec4(0.0, 0.0, 0.0, 0.0),
+        pivot: new pc.Vec2(0.5, 0.5), 
+        useInput: true,
+        texture: app.assets.find("addtex").resource,
+    });
+    topText.addChild(addButton);
+    addButton.setLocalPosition(45,0,0);
+
+
+    const subButton = new pc.Entity('subButton');
+    subButton.addComponent('element', {
+        type: pc.ELEMENTTYPE_IMAGE,
+        anchor: new pc.Vec4(0.0, 0.5, 0.0, 0.5),
+        width: 55,
+        height: 55,
+        //margin: new pc.Vec4(0.0, 0.0, 0.0, 0.0),
+        pivot: new pc.Vec2(0.5, 0.5), 
+        useInput: true,
+        texture: app.assets.find("subtex").resource,
+    });
+    topText.addChild(subButton);
+    subButton.setLocalPosition(-45,0,0);//85
+
+    addButton.addComponent('button', {
+        imageEntity: addButton,
+    });
+    subButton.addComponent('button', {
+        imageEntity: subButton,
+    });
+
+    uiBox.button.on('click', function(evt){
+        targetBarProgress += 0.1;
+        self.resizeBar();
+    });
+    uiBox2.button.on('click', function(evt){
+        targetBarProgress += 0.05;
+        self.resizeBar();
+    });
+
+    addButton.button.on('click', function(evt){
+        targetKcal += 50;
+        self.resizeBar();
+    });
+    subButton.button.on('click', function(evt){
+        targetKcal -= 50;
+        self.resizeBar();
+    });
+    //FULLSCREEN BUTTON
+    /*
+    uiBox.button.on('click', function(evt){
+        console.log(evt);
+        console.log("Button Clicked");
+        const goFullEvent = new Event("gofull");
+        parent.document.getElementById('fullscreen').dispatchEvent(goFullEvent);
+    });
+    */
     hasSetupUI = true;
 }
 
@@ -113,8 +227,6 @@ BarScript.prototype.resizeBar = function(){
     distX = topLeft.x.x - bottomRight.x.x; 
     distY = topLeft.x.y - bottomRight.x.y; 
     plane.setLocalScale(distX,1,distY * 10);
-    console.log(distX);
-    console.log(distY);
 
     //var progress = (distY * 0.5) + (distY * -0.99);
 
@@ -162,12 +274,15 @@ BarScript.prototype.resizeBar = function(){
     
     //text.element.text = unitSpace;
 
-    text.element.text = device.height + "v";
-    uiBox2.findComponents("element")[1].text = document.getElementById('application').offsetHeight + "v2";
+    text.element.text = "+100"; // device.height + "v"
+    uiBox2.findComponents("element")[1].text = "+50"; // document.getElementById('application').offsetHeight + "v2"
 
-    mat.color.set(0.9882,0.83921,0.2196);
-    mat.update();
-    console.log("Colour set: " + mat.color);
+    topText.setLocalPosition(0,-45,0);
+    topText.element.text = targetKcal + " kcal";
+
+
+    //mat.color.set(0.9882,0.83921,0.2196);
+    //mat.update();
+    //console.log("Colour set: " + mat.color);
     
-
 };

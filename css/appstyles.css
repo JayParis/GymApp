@@ -16,6 +16,15 @@ body {
     -webkit-tap-highlight-color: transparent;
 }
 
+#splash {
+    display: none;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    background-color:#ccc;
+}
+
 #application-canvas {
     display: block;
     position: absolute;
