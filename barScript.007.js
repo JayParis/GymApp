@@ -66,8 +66,14 @@ BarScript.prototype.initialize = function(){
         localStorage.setItem('kcal_value', 0);
     }else{
         //localStorage.setItem('kcal_value', 0);
-
         currentKcal = parseInt(localStorage.getItem('kcal_value'));
+    }
+
+    if(localStorage.getItem('kcal_targetvalue') === null){
+        localStorage.setItem('kcal_targetvalue', 3000);
+    }else{
+        //localStorage.setItem('kcal_value', 0);
+        targetKcal = parseInt(localStorage.getItem('kcal_targetvalue'));
     }
 };
 
@@ -317,6 +323,7 @@ BarScript.prototype.resizeBar = function(){
     subText.element.text = currentKcal + " kcal";
 
     localStorage.setItem('kcal_value', currentKcal);
+    localStorage.setItem('kcal_targetvalue', targetKcal);
 
     mat.color.set(0.9882,0.83921,0.2196);
     mat.update();
