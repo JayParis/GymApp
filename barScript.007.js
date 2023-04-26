@@ -62,7 +62,13 @@ BarScript.prototype.initialize = function(){
 
     window.addEventListener('resize', () => this.resizeBar());
 
-    
+    if(localStorage.getItem('kcal_value') === null){
+        localStorage.setItem('kcal_value', 0);
+    }else{
+        //localStorage.setItem('kcal_value', 0);
+
+        currentKcal = parseInt(localStorage.getItem('kcal_value'));
+    }
 };
 
 BarScript.prototype.update = function(dt){
@@ -104,8 +110,23 @@ BarScript.prototype.setUpInterface = function(){
     var self = this;
 
     uiBox2 = uiBox.clone();
+    uiBox3 = uiBox.clone();
     uiGroup.addChild(uiBox2);
+    uiGroup.addChild(uiBox3);
     uiBox2.setLocalPosition(-15,145,0);
+    uiBox3.setLocalPosition(-15,245,0);
+
+    hiddenReset.setLocalPosition(0,-105,0);
+    hiddenReset.addComponent('button', {
+        imageEntity: hiddenReset,
+        hoverTint: [0,0,0,0],
+        pressedTint: [0,0,0,0],
+        inactiveTint: [0,0,0,0],
+    });
+    hiddenReset.button.on('click', function(evt){
+        currentKcal = 0;
+        self.resizeBar();
+    });
     //uiBox2.findComponents("element")[1].text = "+50"; //"+50"
     //console.log("GN " + uiBox2.findComponents("element")[1].text);
 
@@ -200,6 +221,11 @@ BarScript.prototype.setUpInterface = function(){
         currentKcal += 50;
         self.resizeBar();
     });
+    uiBox3.button.on('click', function(evt){
+        targetBarProgress += 0.05;
+        currentKcal += 25;
+        self.resizeBar();
+    });
 
     addButton.button.on('click', function(evt){
         targetKcal += 50;
@@ -223,6 +249,7 @@ BarScript.prototype.setUpInterface = function(){
 
 BarScript.prototype.resizeBar = function(){
     app.resizeCanvas();
+    currentKcal = pc.math.clamp(currentKcal, 0, targetKcal);
 
     let width = document.getElementById('application').offsetWidth;
     let height = document.getElementById('application').offsetHeight;
@@ -282,12 +309,14 @@ BarScript.prototype.resizeBar = function(){
 
     text.element.text = "+100"; // device.height + "v"
     uiBox2.findComponents("element")[1].text = "+50"; // document.getElementById('application').offsetHeight + "v2"
+    uiBox3.findComponents("element")[1].text = "+25"; // document.getElementById('application').offsetHeight + "v2"
 
     topText.setLocalPosition(0,-105,0); //-45
     subText.setLocalPosition(0,-15,0);
     topText.element.text = targetKcal + " kcal";
     subText.element.text = currentKcal + " kcal";
 
+    localStorage.setItem('kcal_value', currentKcal);
 
     mat.color.set(0.9882,0.83921,0.2196);
     mat.update();
