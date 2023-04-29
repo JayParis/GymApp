@@ -92,12 +92,12 @@ BarScript.prototype.update = function(dt){
     var progress = (distY * 0.5) + (distY * -barProgress); // 0 to 1
     this.entity.setPosition(0,(distY * 5) + progress,0);
 
-    if(hasSetupUI && 1 == 2){
+    if(hasSetupUI){
         this.time += dt;
             
         // Bounce value of t 0->1->0
-        var t = (this.time % 2);
-        if (t > 1) {
+        var t = (this.time * 0.2); // % 2
+        if (t > 0) {
             t = 1 - (t - 1);
         }
 
@@ -145,11 +145,12 @@ BarScript.prototype.setUpInterface = function(){
     //console.log("FSCR_" + window.document.getElementById('fullscreen'));
     //window.goFullscreen();
     // SHADER CODE
-    /*
+    
     var vertexShader = app.assets.find("vertshader","shader").resource;
     var fragmentShader = "precision " + device.precision + " float;\n";
     fragmentShader = fragmentShader + app.assets.find("fragshader","shader").resource;
     var noiseTex = app.assets.find("noisetex","texture").resource;
+    var foodTex = app.assets.find("foodtex","texture").resource;
 
     var shaderDefinition = {
         attributes: {
@@ -165,7 +166,7 @@ BarScript.prototype.setUpInterface = function(){
     this.material.shader = this.shader;
 
     this.material.setParameter('uTime', 0);
-    this.material.setParameter('uDiffuseMap', noiseTex);
+    this.material.setParameter('uDiffuseMap', foodTex);
     this.material.setParameter('uHeightMap', noiseTex);
 
     var renders = this.entity.findComponents('render');
@@ -177,7 +178,7 @@ BarScript.prototype.setUpInterface = function(){
             meshInstances[j].material = this.material;
         }
     }
-    */
+    
 
     console.log("Parent " + parent.document.getElementById('fullscreen'));
 
@@ -324,9 +325,9 @@ BarScript.prototype.resizeBar = function(){
 
     localStorage.setItem('kcal_value', currentKcal);
     localStorage.setItem('kcal_targetvalue', targetKcal);
-
-    mat.color.set(0.9882,0.83921,0.2196);
-    mat.update();
-    console.log("Colour set: " + mat.color);
+    
+    //mat.color.set(0.9882,0.83921,0.2196);
+    //mat.update();
+    //console.log("Colour set: " + mat.color);
     
 };
