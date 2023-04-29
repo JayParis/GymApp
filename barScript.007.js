@@ -96,7 +96,7 @@ BarScript.prototype.update = function(dt){
         this.time += dt;
             
         // Bounce value of t 0->1->0
-        var t = (this.time * 0.2); // % 2
+        var t = (this.time * 0.1); // % 2
         if (t > 0) {
             t = 1 - (t - 1);
         }
