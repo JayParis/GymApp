@@ -20,5 +20,5 @@ void main(void)
 
     //mix(color,solidColor,(1.0 - vUv0.y));
     float lerp = (1.0 - vUv0.y) * 4.0;
-    gl_FragColor = mix(solidColor, color,clamp(lerp,0.0,1.0));
+    gl_FragColor = vec4(mix(solidColor, color,clamp(lerp,0.0,1.0)).rgb,1.0);
 }

@@ -117,10 +117,16 @@ BarScript.prototype.setUpInterface = function(){
 
     uiBox2 = uiBox.clone();
     uiBox3 = uiBox.clone();
+    //uiBoxCustom = uiBox.clone();
+
     uiGroup.addChild(uiBox2);
     uiGroup.addChild(uiBox3);
+    uiGroup.addChild(uiBoxCustom);
+
     uiBox2.setLocalPosition(-15,145,0);
     uiBox3.setLocalPosition(-15,245,0);
+    uiBoxCustom.setLocalPosition(-20,350,0);
+    uiBoxCustom.element.texture = app.assets.find("customaddtex","texture").resource;
 
     hiddenReset.setLocalPosition(0,-105,0);
     hiddenReset.addComponent('button', {
@@ -217,6 +223,9 @@ BarScript.prototype.setUpInterface = function(){
     subButton.addComponent('button', {
         imageEntity: subButton,
     });
+    uiBoxCustom.addComponent('button', {
+        imageEntity: uiBoxCustom,
+    });
 
     uiBox.button.on('click', function(evt){
         targetBarProgress += 0.1;
@@ -241,6 +250,9 @@ BarScript.prototype.setUpInterface = function(){
     subButton.button.on('click', function(evt){
         targetKcal -= 50;
         self.resizeBar();
+    });
+    uiBoxCustom.button.on('click', function(evt){
+        console.log("Custom button clicked");
     });
     //FULLSCREEN BUTTON
     /*
