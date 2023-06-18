@@ -8,7 +8,7 @@ UiInputField.attributes.add('inputType', {
     type: 'string', 
     title: 'Input Type',
     description: 'What type of input will this field accept. On some devices, the virtual keyboard layout may change as well. For example, \'Number\' will bring up a numpad instead of the full keyboard.',
-    default: 'text',  
+    default: 'number',  //text
     enum: [
         { 'Text': 'text' },
         { 'Text (no spellcheck)': 'text no spellcheck' },
