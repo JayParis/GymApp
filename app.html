@@ -112,8 +112,9 @@
 
         var uiBox2 = new pc.Entity('ui_box_2');
         var uiBox3 = new pc.Entity('ui_box_3');
-        var uiBoxCustom = new pc.Entity('ui_box_custom');
-        uiBoxCustom.addComponent('element',{
+        var uiBoxCustomSub = new pc.Entity('ui_box_custom_sub');
+        var uiBoxCustomAdd = new pc.Entity('ui_box_custom_add');
+        uiBoxCustomAdd.addComponent('element',{
             type: pc.ELEMENTTYPE_IMAGE,
             anchor: new pc.Vec4(1.0, 0.0, 1.0, 0.0),
             width: 75,
@@ -151,7 +152,7 @@
         
         const customButtonText = new pc.Entity('text');
         customButtonText.tags.add("cbText");
-        uiBoxCustom.addChild(customButtonText);
+        uiBoxCustomAdd.addChild(customButtonText);
         
         fontAsset.on('load', function () {
             // Apply the font to the text element
@@ -199,17 +200,8 @@
         });
         app.assets.load(fontAsset);
 
-        app.assets.loadFromUrl("./ui-input-field.js", "script", function (err, asset) {
-            uiBoxCustom.addComponent("script");
-            uiBoxCustom.script.create("uiInputField");
-            
-            console.log("LOADED UI ASSET");
-        });
+        
 
-        app.assets.loadFromUrl("./ui-input-field.js", "script", function (err, asset) {
-            app.root.addComponent("script");
-            //plane.script.create("barScript");
-        });
 
         // create camera entity
         const camera = new pc.Entity('camera');

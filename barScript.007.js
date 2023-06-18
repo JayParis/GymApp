@@ -117,16 +117,39 @@ BarScript.prototype.setUpInterface = function(){
 
     uiBox2 = uiBox.clone();
     uiBox3 = uiBox.clone();
-    //uiBoxCustom = uiBox.clone();
+    uiBoxCustomSub = uiBoxCustomAdd.clone();
+    //uiBoxCustomAdd = uiBox.clone();
 
     uiGroup.addChild(uiBox2);
     uiGroup.addChild(uiBox3);
-    uiGroup.addChild(uiBoxCustom);
+    uiGroup.addChild(uiBoxCustomAdd);
+    uiGroup.addChild(uiBoxCustomSub);
 
     uiBox2.setLocalPosition(-15,145,0);
     uiBox3.setLocalPosition(-15,245,0);
-    uiBoxCustom.setLocalPosition(-20,350,0);
-    uiBoxCustom.element.texture = app.assets.find("customaddtex","texture").resource;
+    uiBoxCustomAdd.setLocalPosition(-20,350,0);
+    uiBoxCustomAdd.element.texture = app.assets.find("addtex","texture").resource; //customaddtex
+
+    app.assets.loadFromUrl("./ui-input-field.js", "script", function (err, asset) {
+        uiBoxCustomAdd.addComponent("script");
+        uiBoxCustomAdd.script.create("uiInputField",{
+            attributes: {
+                addSub: true,
+            }
+        });
+    });
+
+    uiBoxCustomSub.setLocalPosition(-102,350,0);
+    uiBoxCustomSub.element.texture = app.assets.find("subtex","texture").resource; //customaddtex
+
+    app.assets.loadFromUrl("./ui-input-field.js", "script", function (err, asset) {
+        uiBoxCustomSub.addComponent("script");
+        uiBoxCustomSub.script.create("uiInputField",{
+            attributes: {
+                addSub: false,
+            }
+        });
+    });
 
     hiddenReset.setLocalPosition(0,-105,0);
     hiddenReset.addComponent('button', {
@@ -224,8 +247,8 @@ BarScript.prototype.setUpInterface = function(){
         imageEntity: subButton,
     });
     /*
-    uiBoxCustom.addComponent('button', {
-        imageEntity: uiBoxCustom,
+    uiBoxCustomAdd.addComponent('button', {
+        imageEntity: uiBoxCustomAdd,
     });
     */
 
@@ -254,7 +277,7 @@ BarScript.prototype.setUpInterface = function(){
         self.resizeBar();
     });
     /*
-    uiBoxCustom.button.on('click', function(evt){
+    uiBoxCustomAdd.button.on('click', function(evt){
         console.log("Custom button clicked");
     });
     */
@@ -270,7 +293,7 @@ BarScript.prototype.setUpInterface = function(){
     hasSetupUI = true;
 }
 
-BarScript.prototype.resizeBar = function(){
+BarScript.prototype.resizeBar = function() {
     app.resizeCanvas();
     currentKcal = pc.math.clamp(currentKcal, 0, targetKcal);
 
@@ -348,12 +371,12 @@ BarScript.prototype.resizeBar = function(){
     
 };
 
-function CustomValueEntered(val) {
+function CustomValueEntered(val, addOrSub) {
     let finalVal = parseInt(val);
     if(isNaN(finalVal) || finalVal == null)
         return;
 
-    currentKcal += finalVal;
+    currentKcal += (finalVal * (addOrSub ? 1 : -1));
     BarScript.prototype.resizeBar();
-    console.log("Custom value: " + val);
+    console.log("Custom value: " + val + " AddSub: " + addOrSub);
 }

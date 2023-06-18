@@ -43,18 +43,23 @@ UiInputField.attributes.add('placeHolderColor', { type: 'rgb',
     title: 'Place Holder Text Color', 
     description: 'What color the text should be when the placeholder string is used.' 
 });
+UiInputField.attributes.add('addSub', { type: 'boolean',
+    title: 'Add or Sub button',
+    default: 'true',
+});
 
 
 // initialize code called once per entity
 UiInputField.prototype.initialize = function () {
     this._textElement = customButtonText.element; //this.textEntity.element;
     this._textColor = this._textElement.color.clone();
-    this.value = '';
+    this.value = '-';
     this.setEvents('on');
     this.on('destroy', () => {
         this.setEvents('off');
     });
 
+    this.addSubVar = false;
     this._onValueChange('');
 };
 
@@ -70,7 +75,7 @@ UiInputField.prototype._onValueChange = function (value) {
         console.log("Value is the same");
         return;
     } else {
-        CustomValueEntered(value);
+        CustomValueEntered(value, this.addSub);
         console.log("Value was changed");
     }
 
