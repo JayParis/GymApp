@@ -209,7 +209,7 @@ BarScript.prototype.setUpInterface = function(){
     }
     
 
-    console.log("Parent " + parent.document.getElementById('fullscreen'));
+    console.log("Fullscreen Parent " + parent.document.getElementById('fullscreen'));
 
     const addButton = new pc.Entity('addButton');
     addButton.addComponent('element', {
@@ -281,15 +281,17 @@ BarScript.prototype.setUpInterface = function(){
         console.log("Custom button clicked");
     });
     */
+
+
     //FULLSCREEN BUTTON
-    /*
+    
     uiBox.button.on('click', function(evt){
         console.log(evt);
         console.log("Button Clicked");
         const goFullEvent = new Event("gofull");
         parent.document.getElementById('fullscreen').dispatchEvent(goFullEvent);
     });
-    */
+    
     hasSetupUI = true;
 }
 

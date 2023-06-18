@@ -102,6 +102,7 @@
             button.addEventListener('gofull', function() {
                 console.log("Going fullscreen");
                 iframe.requestFullScreen();
+                console.log("Requesting fullscreen");
 
                 if (kik.enabled) {
                     kik.browser.statusBar(false);
