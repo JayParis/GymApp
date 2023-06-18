@@ -223,22 +223,24 @@ BarScript.prototype.setUpInterface = function(){
     subButton.addComponent('button', {
         imageEntity: subButton,
     });
+    /*
     uiBoxCustom.addComponent('button', {
         imageEntity: uiBoxCustom,
     });
+    */
 
     uiBox.button.on('click', function(evt){
-        targetBarProgress += 0.1;
+        //targetBarProgress += 0.1;
         currentKcal += 100;
         self.resizeBar();
     });
     uiBox2.button.on('click', function(evt){
-        targetBarProgress += 0.05;
+        //targetBarProgress += 0.05;
         currentKcal += 50;
         self.resizeBar();
     });
     uiBox3.button.on('click', function(evt){
-        targetBarProgress += 0.05;
+        //targetBarProgress += 0.05;
         currentKcal += 25;
         self.resizeBar();
     });
@@ -251,9 +253,11 @@ BarScript.prototype.setUpInterface = function(){
         targetKcal -= 50;
         self.resizeBar();
     });
+    /*
     uiBoxCustom.button.on('click', function(evt){
         console.log("Custom button clicked");
     });
+    */
     //FULLSCREEN BUTTON
     /*
     uiBox.button.on('click', function(evt){
@@ -343,3 +347,13 @@ BarScript.prototype.resizeBar = function(){
     //console.log("Colour set: " + mat.color);
     
 };
+
+function CustomValueEntered(val) {
+    let finalVal = parseInt(val);
+    if(isNaN(finalVal) || finalVal == null)
+        return;
+
+    currentKcal += finalVal;
+    BarScript.prototype.resizeBar();
+    console.log("Custom value: " + val);
+}
