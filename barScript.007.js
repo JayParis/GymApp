@@ -289,7 +289,8 @@ BarScript.prototype.setUpInterface = function(){
         console.log(evt);
         console.log("Button Clicked");
         const goFullEvent = new Event("gofull");
-        parent.document.getElementById('fullscreen').dispatchEvent(goFullEvent);
+        //parent.document.getElementById('fullscreen').dispatchEvent(goFullEvent);
+        parent.document.dispatchEvent(goFullEvent);
     });
     
     hasSetupUI = true;

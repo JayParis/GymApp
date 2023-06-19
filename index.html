@@ -94,19 +94,13 @@
 
         // aggregate fullscreen to one method
         iframe.requestFullScreen = iframe.requestFullScreen || iframe.mozRequestFullScreen || iframe.webkitRequestFullScreen;
-        var button = document.getElementById('fullscreen');
+        //var button = document.getElementById('fullscreen');
 
         // detect fullscreen is supported
         if (iframe.requestFullScreen) {
-            button.classList.add('available');
-            button.addEventListener('gofull', function() {
-                console.log("Going fullscreen");
+            //button.addEventListener('gofull', function() {
+            document.addEventListener('gofull', function() {
                 iframe.requestFullScreen();
-                console.log("Requesting fullscreen");
-
-                if (kik.enabled) {
-                    kik.browser.statusBar(false);
-                }
             }, false);
             console.log("Fullscreen is supported");
         }
@@ -144,7 +138,6 @@
 
             var iosVersion = getIosVersion();
             var iframe = document.getElementById('frame');
-            var footer = document.getElementById('footer');
 
             var container = document.getElementById('container');
             var lastWindowHeight = window.innerHeight;
@@ -155,7 +148,7 @@
                 var width = window.innerWidth;
 
                 // Take into account of the footer
-                var height = window.innerHeight - footer.offsetHeight;
+                var height = window.innerHeight;
 
                 container.style.height = height + 'px';
                 container.style.width = width + 'px';
@@ -200,6 +193,7 @@
             iframe.addEventListener('load', function () {
                 reflow();
             });
+
         })();
     </script>
 
