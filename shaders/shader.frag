@@ -11,8 +11,7 @@ void main(void)
     //color *= (1.0 - vUv0.y);
 
     //vec4(0.98,0.83,0.21,1.0);
-    vec4 solidColor = vec4(0.33, 0.21, 0.98, 1.0);
-    
+    vec4 solidColor = vec4(0.33, 0.21, 0.98, 1.0);    
     //if (height < uTime) {
     //  discard;
     //}
