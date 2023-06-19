@@ -9,7 +9,9 @@ void main(void)
     float height = texture2D(uHeightMap, gl_FragCoord.xy / 500.0 + uTime).r;
     vec4 color = texture2D(uDiffuseMap, gl_FragCoord.xy / 500.0 + uTime);
     //color *= (1.0 - vUv0.y);
-    vec4 solidColor = vec4(0.98,0.83,0.21,1.0);
+
+    //vec4(0.98,0.83,0.21,1.0);
+    vec4 solidColor = vec4(0.33, 0.21, 0.98, 1.0);
     
     //if (height < uTime) {
     //  discard;

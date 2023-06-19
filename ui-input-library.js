@@ -33,7 +33,7 @@
             inputDom.remove();
         }
 
-        inputDom = parent.document.createElement('input');
+        inputDom = document.createElement('input'); //parent
         inputDom.setAttribute('type', 'text');
         inputDom.style.position = 'absolute';
         inputDom.style.fontFamily = 'Arial, sans-serif';
@@ -47,7 +47,7 @@
         resetStyle();
         
         inputDom.value = '';
-        parent.document.body.appendChild(inputDom);
+        document.body.appendChild(inputDom); //parent
     }
 
     createInputDom();
