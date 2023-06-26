@@ -61,6 +61,7 @@ BarScript.prototype.initialize = function(){
     });
 
     window.addEventListener('resize', () => this.resizeBar());
+    window.addEventListener('orientationchange', () => this.resizeBar());
 
     if(localStorage.getItem('kcal_value') === null){
         localStorage.setItem('kcal_value', 0);
