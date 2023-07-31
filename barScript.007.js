@@ -204,11 +204,11 @@ BarScript.prototype.onTouchMove = function(event){
 
     if((event.touches[0].x > touchXStartPos + 10) || (event.touches[0].x < touchXStartPos - 10)){
         hue += (touchXStartPos - event.touches[0].x) * -0.00005;
-        if(hue > 1.0)
-            hue = 0.0;
-        if(hue < 0.0)
-            hue = 1.0;
-        
+        if(hue > 0.999)
+            hue = 0.01;
+        if(hue < 0.001)
+            hue = 0.99;
+
         var barColour = rgbFromHSV(hue * 360,1.0,1.0);
         bar_r = barColour[0];
         bar_g = barColour[1];
