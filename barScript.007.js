@@ -7,6 +7,14 @@ var unitSpace = 0;
 
 var hasSetupUI = false;
 
+var hue = 0.5;
+var touchHeld = false;
+var touchXStartPos = 0;
+var saveColourTimer = -100;
+
+var bar_r = 0.33;
+var bar_g = 0.21;
+var bar_b = 0.98;
 
 BarScript.prototype.initialize = function(){
     console.log("this script is init");
@@ -76,6 +84,36 @@ BarScript.prototype.initialize = function(){
         //localStorage.setItem('kcal_value', 0);
         targetKcal = parseInt(localStorage.getItem('kcal_targetvalue'));
     }
+
+    // Colour
+
+    if(localStorage.getItem('kcal_bar_r') === null){
+        localStorage.setItem('kcal_bar_r', bar_r);
+    }else{
+        //localStorage.setItem('kcal_value', 0);
+        bar_r = parseFloat(localStorage.getItem('kcal_bar_r'));
+    }
+
+    if(localStorage.getItem('kcal_bar_g') === null){
+        localStorage.setItem('kcal_bar_g', bar_g);
+    }else{
+        //localStorage.setItem('kcal_value', 0);
+        bar_g = parseFloat(localStorage.getItem('kcal_bar_g'));
+    }
+
+    if(localStorage.getItem('kcal_bar_b') === null){
+        localStorage.setItem('kcal_bar_b', bar_b);
+    }else{
+        //localStorage.setItem('kcal_value', 0);
+        bar_b = parseFloat(localStorage.getItem('kcal_bar_b'));
+    }
+
+    if(localStorage.getItem('kcal_bar_hue') === null){
+        localStorage.setItem('kcal_bar_hue', 0.004);
+    }else{
+        //localStorage.setItem('kcal_value', 0);
+        hue = parseFloat(localStorage.getItem('kcal_bar_hue'));
+    }
 };
 
 BarScript.prototype.update = function(dt){
@@ -86,6 +124,11 @@ BarScript.prototype.update = function(dt){
 
     if(this.app.mouse.wasPressed(pc.MOUSEBUTTON_LEFT)){
         this.resizeBar();
+        touchHeld = true;
+    }
+
+    if(this.app.mouse.wasReleased(pc.MOUSEBUTTON_LEFT)){
+        touchHeld = false;
     }
 
     targetBarProgress = pc.math.clamp(currentKcal / targetKcal, 0.001, 1);
@@ -105,12 +148,76 @@ BarScript.prototype.update = function(dt){
         // Update the time value in the material
         this.material.setParameter('uTime', t);
     }
+
+    if(saveColourTimer > 0){
+        saveColourTimer -= dt;
+        //console.log(saveColourTimer);
+    }else{
+        if(saveColourTimer > -10){
+            console.log("Saving Colour");
+            localStorage.setItem('kcal_bar_r', bar_r);
+            localStorage.setItem('kcal_bar_g', bar_g);
+            localStorage.setItem('kcal_bar_b', bar_b);
+            localStorage.setItem('kcal_bar_hue', hue);
+            saveColourTimer = -100;
+        }
+    }
 };
+
+function rgbFromHSV(h,s,v) {
+    /**
+     * I: An array of three elements hue (h) ∈ [0, 360], and saturation (s) and value (v) which are ∈ [0, 1]
+     * O: An array of red (r), green (g), blue (b), all ∈ [0, 255]
+     * Derived from https://en.wikipedia.org/wiki/HSL_and_HSV
+     * This stackexchange was the clearest derivation I found to reimplement https://cs.stackexchange.com/questions/64549/convert-hsv-to-rgb-colors
+     */
+  
+    hprime = h / 60;
+    const c = v * s;
+    const x = c * (1 - Math.abs(hprime % 2 - 1)); 
+    const m = v - c;
+    let r, g, b;
+    if (!hprime) {r = 0; g = 0; b = 0; }
+    if (hprime >= 0 && hprime < 1) { r = c; g = x; b = 0}
+    if (hprime >= 1 && hprime < 2) { r = x; g = c; b = 0}
+    if (hprime >= 2 && hprime < 3) { r = 0; g = c; b = x}
+    if (hprime >= 3 && hprime < 4) { r = 0; g = x; b = c}
+    if (hprime >= 4 && hprime < 5) { r = x; g = 0; b = c}
+    if (hprime >= 5 && hprime < 6) { r = c; g = 0; b = x}
+    
+    r = Math.round( (r + m)* 255);
+    g = Math.round( (g + m)* 255);
+    b = Math.round( (b + m)* 255);
+  
+    return [r * 0.00392156863, g * 0.00392156863, b * 0.00392156863]
+  }
 
 BarScript.prototype.onTouchStart = function(event){
     this.resizeBar();
+    touchXStartPos = event.touches[0].x;
 }
 BarScript.prototype.onTouchMove = function(event){
+    //console.log(document.getElementById('application').offsetHeight);
+    if(event.touches[0].y > (document.getElementById('application').offsetHeight * 0.5)){
+        return;
+    }
+
+    if((event.touches[0].x > touchXStartPos + 10) || (event.touches[0].x < touchXStartPos - 10)){
+        hue += (touchXStartPos - event.touches[0].x) * -0.00005;
+        if(hue > 1.0)
+            hue = 0.0;
+        if(hue < 0.0)
+            hue = 1.0;
+        
+        var barColour = rgbFromHSV(hue * 360,1.0,1.0);
+        bar_r = barColour[0];
+        bar_g = barColour[1];
+        bar_b = barColour[2];
+        this.material.setParameter('accentColour', [bar_r,bar_g,bar_b]);
+        saveColourTimer = 0.25;
+    }
+    
+    //console.log(hue);
 }
 
 BarScript.prototype.setUpInterface = function(){
@@ -195,9 +302,13 @@ BarScript.prototype.setUpInterface = function(){
     this.material = new pc.Material();
     this.material.shader = this.shader;
 
+    var barColour = rgbFromHSV(290.5,1.0,1.0);
+    console.log(barColour);
+
     this.material.setParameter('uTime', 0);
     this.material.setParameter('uDiffuseMap', foodTex);
     this.material.setParameter('uHeightMap', noiseTex);
+    this.material.setParameter('accentColour', [bar_r,bar_g,bar_b]); //[0.33,0.21,0.98]
 
     var renders = this.entity.findComponents('render');
     console.log("RENDERS: " + renders);
